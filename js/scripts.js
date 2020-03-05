@@ -57,12 +57,13 @@ const inputValue = $('#search-input');
 /*** End Promises ****/
 
 /**** Fetch ****/
+// 
 fetch(urlApi)
-    .then(response => response.json())
+    .then(response => response.json()) // change data to json format
     .then(
         data => {
             data = data.results;
-            for(let i = 0; i < data.length; i++){
+            for(let i = 0; i < data.length; i++){ // fetch data and show it to the user 
             Ndata = data[i];
             addCards(Ndata);
         }
@@ -70,7 +71,9 @@ fetch(urlApi)
     }
     )
 /**** End Fetch ****/
+// This
 function addCards(data){
+    // this fucntio is used to add a new card user to the page .....
     const html = `
     <div class="card">
         <div class="card-img-container">
@@ -86,6 +89,7 @@ function addCards(data){
     gallery.append(html)
 }
 function eventListener(user) {
+    // this function to show modal belong to card clicked 
     let cards = document.querySelectorAll('.card');
     for (let i = 0; i < cards.length; i++) {
             cards[i].addEventListener('click', () => {
@@ -97,12 +101,13 @@ function eventListener(user) {
     }
 }
 function nextPrev(user,i){
+    // this function to aviod error at beginnig and the end of users when you toggle back and forth between users
     const modal = $('div.modal-btn-container > button');
     modal.on('click', (e)=>{
         if (e.target.type === 'button'){
             if(e.target.id === 'modal-prev'){
                 $('.modal-container').remove();
-                if(i === 0) {
+                if(i === 0) { 
                     i = user.length;
                 }
                 addModal(user,i-1);
@@ -119,6 +124,7 @@ function nextPrev(user,i){
     })
 }
 function addModal(allData,i){
+    // this to add modal using json data and html markup when the user click on a card .....
     data = allData[i];
     let address = data.location;
     let name = data.name;
@@ -148,12 +154,14 @@ function addModal(allData,i){
     console.log(data)
 }
 function closeModal(){
+    // this function is used to close the modal when the X button is clicked 
     const closeBtn = document.getElementById("modal-close-btn");
     closeBtn.addEventListener('click', () => {
         $('.modal-container').remove();
     })
 }
 function addSearch(){
+    // add search form the page :)
     const searchCont = $('div.search-container')
     const html = `
         <form action="#" method="get">
@@ -164,6 +172,7 @@ function addSearch(){
     searchCont.append(html);
 }
 function filterData(){
+    // this functio is used to filter data on the page when the user start typing on the search input 
     let searchList = [];
     const usersList = $('.card');
     const name = $('.card-name');
@@ -173,12 +182,12 @@ function filterData(){
     }
     for(let i = 0; i < name.length; i++ ) {
         if (name[i].textContent.includes(inputValue.val())) {
-            searchList.push(usersList[i]);
+            searchList.push(usersList[i]); // to check if there is any data is founded and pushit to the searchList array 
             usersList[i].style.display = 'block';
         }
     }
-    if (searchList.length === 0 ){
-        console.log('Nothing');
+    if (searchList.length === 0 ){ // show error message when no data is found
+        // console.log('Nothing');
         if(!$('.error').length){
             $('.header-text-container').append(error);
         }
